@@ -1,0 +1,1 @@
+module github.com/onosproject/onos-a1-dm/go
