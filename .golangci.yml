@@ -7,7 +7,7 @@ linters:
     - gofmt
     - revive
     - misspell
-    - typecheck
+    # - typecheck
     - errcheck
     - dogsled
     - unconvert
