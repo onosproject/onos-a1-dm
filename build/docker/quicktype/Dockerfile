@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-FROM node:12.22.9-buster-slim
+FROM node:20.14.0-buster-slim
 
 RUN npm install -g quicktype
 
