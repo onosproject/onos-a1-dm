@@ -25,25 +25,25 @@ func (r *API) Marshal() ([]byte, error) {
 // O-RAN standard QoE Target policy
 type API struct {
 	QoeObjectives QoeObjectives `json:"qoeObjectives"`
-	Scope         Scope         `json:"scope"`        
+	Scope         Scope         `json:"scope"`
 }
 
 type QoeObjectives struct {
 	InitialBuffering *float64 `json:"initialBuffering,omitempty"`
-	QoeScore         *float64 `json:"qoeScore,omitempty"`        
-	ReBuffFreq       *float64 `json:"reBuffFreq,omitempty"`      
-	StallRatio       *float64 `json:"stallRatio,omitempty"`      
+	QoeScore         *float64 `json:"qoeScore,omitempty"`
+	ReBuffFreq       *float64 `json:"reBuffFreq,omitempty"`
+	StallRatio       *float64 `json:"stallRatio,omitempty"`
 }
 
 type Scope struct {
-	CellID  *CellID  `json:"cellId,omitempty"` 
-	QosID   *QosID   `json:"qosId,omitempty"`  
+	CellID  *CellID  `json:"cellId,omitempty"`
+	QosID   *QosID   `json:"qosId,omitempty"`
 	SliceID *SliceID `json:"sliceId,omitempty"`
-	UeID    *string  `json:"ueId,omitempty"`   
+	UeID    *string  `json:"ueId,omitempty"`
 }
 
 type CellID struct {
-	CID    CID    `json:"cId"`   
+	CID    CID    `json:"cId"`
 	PlmnID PlmnID `json:"plmnId"`
 }
 
@@ -63,9 +63,9 @@ type QosID struct {
 }
 
 type SliceID struct {
-	PlmnID PlmnID  `json:"plmnId"`      
+	PlmnID PlmnID  `json:"plmnId"`
 	SD     *string `json:"sd,omitempty"`
-	Sst    int64   `json:"sst"`         
+	Sst    int64   `json:"sst"`
 }
 
 var RawSchema = `{ "$schema": "http://json-schema.org/draft-07/schema#", "description": "O-RAN standard QoE Target policy", "type": "object", "properties": { "scope": { "anyOf": [ { "type": "object", "properties": { "ueId": {"$ref": "#/definitions/UeId"}, "sliceId": {"$ref": "#/definitions/SliceId"}, "qosId": {"$ref": "#/definitions/QosId"}, "cellId": {"$ref": "#/definitions/CellId"} }, "additionalProperties": false, "required": ["ueId", "sliceId"] }, { "type": "object", "properties": { "ueId": {"$ref": "#/definitions/UeId"}, "qosId": {"$ref": "#/definitions/QosId"}, "cellId": {"$ref": "#/definitions/CellId"} }, "additionalProperties": false, "required": ["ueId", "qosId"] }, { "type": "object", "properties": { "sliceId": {"$ref": "#/definitions/SliceId"}, "qosId": {"$ref": "#/definitions/QosId"}, "cellId": {"$ref": "#/definitions/CellId"} }, "additionalProperties": false, "required": ["sliceId"] }, { "type": "object", "properties": { "qosId": {"$ref": "#/definitions/QosId"}, "cellId": {"$ref": "#/definitions/CellId"} }, "additionalProperties": false, "required": ["qosId"] } ] }, "qoeObjectives": { "type": "object", "properties": { "qoeScore": {"type": "number"}, "initialBuffering": {"type": "number"}, "reBuffFreq": {"type": "number"}, "stallRatio": {"type": "number"} }, "minProperties": 1, "additionalProperties": false } }, "additionalProperties": false, "required": ["scope", "qoeObjectives"], "definitions": { "UeId": { "type": "string", "pattern": "^[A-Fa-f0-9]{16}$" }, "SliceId": { "type": "object", "properties": { "sst": { "type": "integer", "minimum": 0, "maximum": 255 }, "sd": { "type": "string", "pattern": "^[A-Fa-f0-9]{6}$" }, "plmnId": {"$ref": "#/definitions/PlmnId"} }, "additionalProperties": false, "required": ["sst","plmnId"] }, "QosId": { "oneOf": [ { "type":"object", "properties": { "5qI": { "type": "integer", "minimum": 1, "maximum": 256 } }, "additionalProperties": false, "required": ["5qI"] }, { "type": "object", "properties": { "qcI": { "type": "integer", "minimum": 1, "maximum": 256 } }, "additionalProperties": false, "required": ["qcI"] } ] }, "CellId": { "type": "object", "properties": { "plmnId": {"$ref": "#/definitions/PlmnId"}, "cId": {"$ref": "#/definitions/CId"} }, "additionalProperties": false, "required": ["plmnId", "cId"] }, "CId": { "oneOf": [ { "type":"object", "properties": { "ncI": {"$ref": "#/definitions/NcI"} }, "additionalProperties": false, "required": ["ncI"] }, { "type": "object", "properties": { "ecI": {"$ref": "#/definitions/EcI"} }, "additionalProperties": false, "required": ["ecI"] } ] }, "NcI": { "type": "integer", "minimum": 0, "maximum": 68719476735 }, "EcI": { "type": "integer", "minimum": 0, "maximum": 268435455 }, "PlmnId": { "type": "object", "properties": { "mcc": { "type": "string", "pattern": "^[0-9]{3}$" }, "mnc": { "type": "string", "pattern": "^[0-9]{2,3}$" } }, "additionalProperties": false, "required": ["mcc", "mnc"] } } }`

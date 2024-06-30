@@ -2,31 +2,47 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-.PHONY: build
+.PHONY: build license
 
-all: schemas golang
+GOLANG_CI_VERSION := v1.52.2
 
-build-tools:=$(shell if [ ! -d "./build/build-tools" ]; then cd build && git clone https://github.com/onosproject/build-tools.git; fi)
-include ./build/build-tools/make/onf-common.mk
+all: build
+
+build: # @HELP build the Go library
+build: schemas go-build
 
 test: # @HELP run the unit tests and source code validation
-test: golang schemas
+test: build lint license
 
-jenkins-test: # @HELP run the unit tests and source code validation producing a junit style report for Jenkins
-jenkins-test: jenkins-tools
-
-golang:
-	cd go && go build ./...
+go-build:
+	cd go && go build ./... && gofmt -s -w .
 
 schemas:
 	cd ./build/bin/ && ./compile-a1-schemas.sh
 
-publish: # @HELP publish version on github
-	./build/build-tools/publish-version ${VERSION}
-	./build/build-tools/publish-version go/${VERSION}
+lint: # @HELP examines Go source code and reports coding problems
+	cd ./go; \
+	golangci-lint --version | grep $(GOLANG_CI_VERSION) || curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b `go env GOPATH`/bin $(GOLANG_CI_VERSION); \
+	golangci-lint run --timeout 15m
 
-jenkins-publish: jenkins-tools # @HELP Jenkins calls this to publish artifacts
-	./build/build-tools/release-merge-commit
+license: # @HELP run license checks
+	rm -rf venv
+	python3 -m venv venv
+	. ./venv/bin/activate;\
+	python3 -m pip install --upgrade pip;\
+	python3 -m pip install reuse;\
+	reuse lint
 
-clean:: # @HELP remove all the build artifacts
+check-version: # @HELP check version is duplicated
+	./build/bin/version_check.sh all
+
+clean: # @HELP remove all the build artifacts
 	rm -rf ./build/_output ./vendor
+
+help:
+	@grep -E '^.*: *# *@HELP' $(MAKEFILE_LIST) \
+    | sort \
+    | awk ' \
+        BEGIN {FS = ": *# *@HELP"}; \
+        {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}; \
+    '
