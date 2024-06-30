@@ -15,7 +15,7 @@ test: # @HELP run the unit tests and source code validation
 test: build lint license
 
 go-build:
-	cd go && go build ./... && gofmt -d ./
+	cd go && go build ./... && gofmt -s -w .
 
 schemas:
 	cd ./build/bin/ && ./compile-a1-schemas.sh
