@@ -24,20 +24,20 @@ func (r *API) Marshal() ([]byte, error) {
 
 // O-RAN standard UE Level Target policy
 type API struct {
-	Scope             Scope             `json:"scope"`            
+	Scope             Scope             `json:"scope"`
 	UeLevelObjectives UeLevelObjectives `json:"ueLevelObjectives"`
 }
 
 type Scope struct {
-	CellID  *CellID  `json:"cellId,omitempty"` 
+	CellID  *CellID  `json:"cellId,omitempty"`
 	GroupID *GroupID `json:"groupId,omitempty"`
 	SliceID *SliceID `json:"sliceId,omitempty"`
-	UeID    string   `json:"ueId"`             
-	QosID   *QosID   `json:"qosId,omitempty"`  
+	UeID    string   `json:"ueId"`
+	QosID   *QosID   `json:"qosId,omitempty"`
 }
 
 type CellID struct {
-	CID    CID    `json:"cId"`   
+	CID    CID    `json:"cId"`
 	PlmnID PlmnID `json:"plmnId"`
 }
 
@@ -52,7 +52,7 @@ type PlmnID struct {
 }
 
 type GroupID struct {
-	SPID      *int64 `json:"spId,omitempty"`     
+	SPID      *int64 `json:"spId,omitempty"`
 	RfspIndex *int64 `json:"rfspIndex,omitempty"`
 }
 
@@ -62,24 +62,24 @@ type QosID struct {
 }
 
 type SliceID struct {
-	PlmnID PlmnID  `json:"plmnId"`      
+	PlmnID PlmnID  `json:"plmnId"`
 	SD     *string `json:"sd,omitempty"`
-	Sst    int64   `json:"sst"`         
+	Sst    int64   `json:"sst"`
 }
 
 type UeLevelObjectives struct {
-	DLPacketDelay           *float64         `json:"dlPacketDelay,omitempty"`          
-	DLReliability           *ReliabilityType `json:"dlReliability,omitempty"`          
+	DLPacketDelay           *float64         `json:"dlPacketDelay,omitempty"`
+	DLReliability           *ReliabilityType `json:"dlReliability,omitempty"`
 	DLRlcSduPacketLossRate  *float64         `json:"dlRlcSduPacketLossRate ,omitempty"`
-	DLThroughput            *float64         `json:"dlThroughput,omitempty"`           
-	ULPacketDelay           *float64         `json:"ulPacketDelay,omitempty"`          
+	DLThroughput            *float64         `json:"dlThroughput,omitempty"`
+	ULPacketDelay           *float64         `json:"ulPacketDelay,omitempty"`
 	ULPdcpSduPacketLossRate *float64         `json:"ulPdcpSduPacketLossRate,omitempty"`
-	ULReliability           *ReliabilityType `json:"ulReliability,omitempty"`          
-	ULThroughput            *float64         `json:"ulThroughput,omitempty"`           
+	ULReliability           *ReliabilityType `json:"ulReliability,omitempty"`
+	ULThroughput            *float64         `json:"ulThroughput,omitempty"`
 }
 
 type ReliabilityType struct {
-	PacketSize       float64 `json:"packetSize"`      
+	PacketSize       float64 `json:"packetSize"`
 	SuccessProbility float64 `json:"successProbility"`
 	UserPlaneLatency float64 `json:"userPlaneLatency"`
 }

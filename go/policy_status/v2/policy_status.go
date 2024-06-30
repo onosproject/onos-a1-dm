@@ -25,19 +25,21 @@ func (r *API) Marshal() ([]byte, error) {
 // O-RAN standard policy status
 type API struct {
 	EnforceReason *EnforceReason `json:"enforceReason,omitempty"`
-	EnforceStatus EnforceStatus  `json:"enforceStatus"`          
+	EnforceStatus EnforceStatus  `json:"enforceStatus"`
 }
 
 type EnforceReason string
+
 const (
-	OtherReason EnforceReason = "OTHER_REASON"
-	ScopeNotApplicable EnforceReason = "SCOPE_NOT_APPLICABLE"
+	OtherReason            EnforceReason = "OTHER_REASON"
+	ScopeNotApplicable     EnforceReason = "SCOPE_NOT_APPLICABLE"
 	StatementNotApplicable EnforceReason = "STATEMENT_NOT_APPLICABLE"
 )
 
 type EnforceStatus string
+
 const (
-	Enforced EnforceStatus = "ENFORCED"
+	Enforced    EnforceStatus = "ENFORCED"
 	NotEnforced EnforceStatus = "NOT_ENFORCED"
 )
 

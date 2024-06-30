@@ -25,26 +25,26 @@ func (r *API) Marshal() ([]byte, error) {
 // O-RAN standard QoS Target policy
 type API struct {
 	QosObjectives QosObjectives `json:"qosObjectives"`
-	Scope         Scope         `json:"scope"`        
+	Scope         Scope         `json:"scope"`
 }
 
 type QosObjectives struct {
-	Gfbr          *float64 `json:"gfbr,omitempty"`         
-	Mfbr          *float64 `json:"mfbr,omitempty"`         
-	Pdb           *float64 `json:"pdb,omitempty"`          
+	Gfbr          *float64 `json:"gfbr,omitempty"`
+	Mfbr          *float64 `json:"mfbr,omitempty"`
+	Pdb           *float64 `json:"pdb,omitempty"`
 	PriorityLevel *float64 `json:"priorityLevel,omitempty"`
 }
 
 type Scope struct {
-	CellID  *CellID  `json:"cellId,omitempty"` 
+	CellID  *CellID  `json:"cellId,omitempty"`
 	GroupID *GroupID `json:"groupId,omitempty"`
-	QosID   QosID    `json:"qosId"`            
-	UeID    *string  `json:"ueId,omitempty"`   
+	QosID   QosID    `json:"qosId"`
+	UeID    *string  `json:"ueId,omitempty"`
 	SliceID *SliceID `json:"sliceId,omitempty"`
 }
 
 type CellID struct {
-	CID    CID    `json:"cId"`   
+	CID    CID    `json:"cId"`
 	PlmnID PlmnID `json:"plmnId"`
 }
 
@@ -59,7 +59,7 @@ type PlmnID struct {
 }
 
 type GroupID struct {
-	SPID      *int64 `json:"spId,omitempty"`     
+	SPID      *int64 `json:"spId,omitempty"`
 	RfspIndex *int64 `json:"rfspIndex,omitempty"`
 }
 
@@ -69,9 +69,9 @@ type QosID struct {
 }
 
 type SliceID struct {
-	PlmnID PlmnID  `json:"plmnId"`      
+	PlmnID PlmnID  `json:"plmnId"`
 	SD     *string `json:"sd,omitempty"`
-	Sst    int64   `json:"sst"`         
+	Sst    int64   `json:"sst"`
 }
 
 var RawSchema = `{ "$schema": "http://json-schema.org/draft-07/schema#", "description": "O-RAN standard QoS Target policy", "type": "object", "properties": { "scope": { "anyOf": [ { "type": "object", "properties": { "ueId": {"$ref": "#/definitions/UeId"}, "groupId": {"$ref": "#/definitions/GroupId"}, "qosId": {"$ref": "#/definitions/QosId"}, "cellId": {"$ref": "#/definitions/CellId"} }, "additionalProperties": false, "required": ["ueId", "qosId"] }, { "type": "object", "properties": { "ueId": {"$ref": "#/definitions/UeId"}, "sliceId": {"$ref": "#/definitions/SliceId"}, "qosId": {"$ref": "#/definitions/QosId"}, "cellId": {"$ref": "#/definitions/CellId"} }, "additionalProperties": false, "required": ["ueId", "qosId"] }, { "type": "object", "properties": { "groupId": {"$ref": "#/definitions/GroupId"}, "qosId": {"$ref": "#/definitions/QosId"}, "cellId": {"$ref": "#/definitions/CellId"} }, "additionalProperties": false, "required": ["groupId", "qosId"] }, { "type": "object", "properties": { "sliceId": {"$ref": "#/definitions/SliceId"}, "qosId": {"$ref": "#/definitions/QosId"}, "cellId": {"$ref": "#/definitions/CellId"} }, "additionalProperties": false, "required": ["sliceId", "qosId"] }, { "type": "object", "properties": { "qosId": {"$ref": "#/definitions/QosId"}, "cellId": {"$ref": "#/definitions/CellId"} }, "additionalProperties": false, "required": ["qosId"] } ] }, "qosObjectives": { "type": "object", "properties": { "gfbr": {"type": "number"}, "mfbr": {"type": "number"}, "priorityLevel": {"type": "number"}, "pdb": {"type": "number"} }, "minProperties": 1, "additionalProperties": false } }, "additionalProperties": false, "required": ["scope", "qosObjectives"], "definitions": { "UeId": { "type": "string", "pattern": "^[A-Fa-f0-9]{16}$" }, "GroupId": { "oneOf": [ { "type":"object", "properties": { "spId": { "type": "integer", "minimum": 1, "maximum": 256 } }, "additionalProperties": false, "required": ["spId"] }, { "type": "object", "properties": { "rfspIndex": { "type": "integer", "minimum": 1, "maximum": 256 } }, "additionalProperties": false, "required": ["rfspIndex"] } ] }, "SliceId": { "type": "object", "properties": { "sst": { "type": "integer", "minimum": 0, "maximum": 255 }, "sd": { "type": "string", "pattern": "^[A-Fa-f0-9]{6}$" }, "plmnId": {"$ref": "#/definitions/PlmnId"} }, "additionalProperties": false, "required": ["sst","plmnId"] }, "QosId": { "oneOf": [ { "type":"object", "properties": { "5qI": { "type": "integer", "minimum": 1, "maximum": 256 } }, "additionalProperties": false, "required": ["5qI"] }, { "type": "object", "properties": { "qcI": { "type": "integer", "minimum": 1, "maximum": 256 } }, "additionalProperties": false, "required": ["qcI"] } ] }, "CellId": { "type": "object", "properties": { "plmnId": {"$ref": "#/definitions/PlmnId"}, "cId": {"$ref": "#/definitions/CId"} }, "additionalProperties": false, "required": ["plmnId", "cId"] }, "CId": { "oneOf": [ { "type":"object", "properties": { "ncI": {"$ref": "#/definitions/NcI"} }, "additionalProperties": false, "required": ["ncI"] }, { "type": "object", "properties": { "ecI": {"$ref": "#/definitions/EcI"} }, "additionalProperties": false, "required": ["ecI"] } ] }, "NcI": { "type": "integer", "minimum": 0, "maximum": 68719476735 }, "EcI": { "type": "integer", "minimum": 0, "maximum": 268435455 }, "PlmnId": { "type": "object", "properties": { "mcc": { "type": "string", "pattern": "^[0-9]{3}$" }, "mnc": { "type": "string", "pattern": "^[0-9]{2,3}$" } }, "additionalProperties": false, "required": ["mcc", "mnc"] } } }`

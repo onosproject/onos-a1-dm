@@ -2,8 +2,9 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-FROM node:12.22.9-buster-slim
+FROM node:16.17.0-slim
 
+RUN npm update -g
 RUN npm install -g quicktype
 
 ENTRYPOINT ["/usr/local/bin/quicktype"]
