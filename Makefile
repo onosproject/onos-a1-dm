@@ -4,6 +4,8 @@
 
 .PHONY: build license
 
+GOLANG_CI_VERSION := v1.52.2
+
 all: build
 
 build: # @HELP build the Go library
@@ -19,7 +21,8 @@ schemas:
 	cd ./build/bin/ && ./compile-a1-schemas.sh
 
 lint: # @HELP examines Go source code and reports coding problems
-	golangci-lint --version | grep $(GOLANG_CI_VERSION) || curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b `go env GOPATH`/bin $(GOLANG_CI_VERSION)
+	cd ./go; \
+	golangci-lint --version | grep $(GOLANG_CI_VERSION) || curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b `go env GOPATH`/bin $(GOLANG_CI_VERSION); \
 	golangci-lint run --timeout 15m
 
 license: # @HELP run license checks

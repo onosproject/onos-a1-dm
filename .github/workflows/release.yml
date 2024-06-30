@@ -57,9 +57,9 @@ jobs:
             -H "X-GitHub-Api-Version: 2022-11-28" \
             https://api.github.com/repos/${{ github.repository }}/releases \
             -d '{
-              "tag_name": "v${{ needs.version-check.outputs.target_version }}",
+              "tag_name": "go/v${{ needs.version-check.outputs.target_version }}",
               "target_commitish": "${{ github.event.repository.default_branch }}",
-              "name": "v${{ needs.version-check.outputs.target_version }}",
+              "name": "go/v${{ needs.version-check.outputs.target_version }}",
               "draft": false,
               "prerelease": false,
               "generate_release_notes": true
