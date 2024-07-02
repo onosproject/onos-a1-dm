@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-FROM node:16.17.0-slim
+FROM node:20.14.0-buster-slim
 
 RUN npm update -g
 RUN npm install -g quicktype
